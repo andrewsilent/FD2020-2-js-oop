@@ -15,7 +15,9 @@ class Student extends User {
     super(name, surname, year);
   }
   getCourse() {
-    return new Date().getFullYear() - this.year;
+    return Date().getFullYear() - this.year === 0
+      ? 1
+      : new Date().getFullYear() - this.year;
   }
 }
 
