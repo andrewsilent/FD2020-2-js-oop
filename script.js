@@ -1,5 +1,5 @@
 class User {
-  constructor(name, surname, year) {
+  constructor(name, surname, year = new Date().getFullYear()) {
     this.name = name;
     this.surname = surname;
     this.year = year;
@@ -28,11 +28,18 @@ class User {
   }
 
   set year(value) {
-    const currentYear = new Date().getFullYear();
-    if (currentYear - value > 5) {
+    // const currentYear = new Date().getFullYear(); // тут возвращался {number} год, который было удобно сравнивать с вводимым при создании студента {number} годом
+    // if (currentYear - value > 5) {
+      // throw new RangeError(`Select [${currentYear - 5}...${currentYear}] year`);
+    // }
+    // this._year = value;
+    const currentDate = new Date();
+    let inputDate = new Date();
+    inputDate.setFullYear(value);
+    if (currentDate.getFullYear() - inputDate.getFullYear() > 5) {
       throw new RangeError(`Select [${currentYear - 5}...${currentYear}] year`);
     }
-    this._year = value;
+    this._year = new Date(inputDate); // теперь {student.year instanceof Date} будет true - этого и надо было добиться?
   }
 
   get year() {
@@ -54,7 +61,7 @@ class Student extends User {
       : new Date().getFullYear() - this.year;
   }
 }
-
+const student = new Student('A', 'B');
 const student1 = new Student('Alex', 'Smith', 2019);
 const student2 = new Student('Emily', 'Blant', 2018);
 const student3 = new Student('Emily', 'Blant', 2021);
